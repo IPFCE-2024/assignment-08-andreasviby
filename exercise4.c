@@ -13,7 +13,12 @@
  * Stack operations from Assignment 7
  * These are the ONLY operations you can use on stacks
  */
-
+static void move_s1_to_s2(queue *q) {
+    while (!empty(&q->s1) && !full(&q->s2)) {
+        int x = pop(&q->s1);
+        push(&q->s2, x);
+    }
+}
 /* Initialize an empty stack */
 void initialize(stack *s) {
     s->head = NULL;
@@ -64,6 +69,9 @@ bool full(stack *s) {
  */
 void init_queue(queue *q) {
     /* TODO: initialize queue */
+    initialize(&q->s1);
+    initialize(&q->s2);
+
 }
 
 /* 
@@ -73,6 +81,14 @@ void init_queue(queue *q) {
  */
 void enqueue(queue *q, int x) {
     /* TODO: Implement enqueue using ONLY stack operations */
+    if(full(&q->s1) && empty(&q->s2)) {
+    move_s1_to_s2(q);    
+    }
+    if (!full(&q->s1)) {
+        push(&q->s1, x);
+    } else {
+        fprintf(stderr, "Queue is full, cannot enqueue %d\n", x);
+    }
 }
 
 /* 
@@ -81,8 +97,14 @@ void enqueue(queue *q, int x) {
  */
 int dequeue(queue *q) {
     /* TODO: Implement dequeue using ONLY stack operations */
-    
-    return 0;  // TODO: Replace with actual implementation
+    if (empty(&q->s2)) {
+        if (empty(&q->s1)) {
+            fprintf(stderr, "dequeue: queue er tom\n");
+            return INT_MIN;
+        }
+        move_s1_to_s2(q);
+    }
+    return pop(&q->s2);  // TODO: Replace with actual implementation
 }
 
 /* 
@@ -92,15 +114,21 @@ int dequeue(queue *q) {
  */
 bool queue_empty(queue *q) {
     /* TODO: Implement using ONLY stack operations */
-    return false;  // TODO: Replace with actual implementation
+    return empty(&q->s1) &&empty(q->s2);  // TODO: Replace with actual implementation
 }
 
 /* 
 * Check if the queue is full
 */
 bool queue_full(queue *q) {
-    /* TODO: Implement using ONLY stack operations */
-    return false;
+    if (full(&q->s1) && full(&q->s2)) {
+        return true;
+        if (full(q->s1) && empty(q->s2)) {
+            move_s1_to_s2(q);
+            return full(&q->s1) && full(&q->s2);
+        }
+        return false;
+    }
 }
 
 /* Helper function to print the queue */
