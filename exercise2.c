@@ -18,7 +18,34 @@
  * Returns pointer to the new head of the sorted list.
  */
 node* isort(node* list) {
-    return NULL; // Placeholder implementation
+    
+    if (list == NULL || list->next == NULL) {
+        return list; // List is empty or has one element
+    }
+
+    node* sorted = NULL; // Start with an empty sorted list
+
+    node* current = list;
+    while (current != NULL) {
+        node* next = current->next; // Store next node
+        // Insert current in sorted linked list
+        if (sorted == NULL || sorted->data >= current->data) {
+            // Insert at the beginning
+            current->next = sorted;
+            sorted = current;
+        } else {
+            // Locate the node before the point of insertion
+            node* temp = sorted;
+            while (temp->next != NULL && temp->next->data < current->data) {
+                temp = temp->next;
+            }
+            current->next = temp->next;
+            temp->next = current;
+        }
+        current = next; // Move to the next node
+    }
+
+    return sorted; // Return the new head of the sorted list
 }
 
 /* Helper function to print the list */
