@@ -23,7 +23,6 @@ static void move_s1_to_s2(queue *q) {
 void initialize(stack *s) {
     s->head = NULL;
 }
-
 /* Push an element onto the stack */
 void push(stack *s, int e) {
     node *new_node = (node*)malloc(sizeof(node));
@@ -33,7 +32,6 @@ void push(stack *s, int e) {
         s->head = new_node;
     }
 }
-
 /* Pop an element from the stack */
 int pop(stack *s) {
     if (empty(s)) {
@@ -45,7 +43,6 @@ int pop(stack *s) {
     free(temp);
     return data;
 }
-
 /* Check if stack is empty */
 bool empty(stack *s) {
     return s->head == NULL;
