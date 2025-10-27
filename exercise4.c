@@ -114,7 +114,7 @@ int dequeue(queue *q) {
  */
 bool queue_empty(queue *q) {
     /* TODO: Implement using ONLY stack operations */
-    return empty(&q->s1) &&empty(q->s2);  // TODO: Replace with actual implementation
+    return empty(&q->s1) &&empty(&q->s2);  // TODO: Replace with actual implementation
 }
 
 /* 
@@ -123,7 +123,7 @@ bool queue_empty(queue *q) {
 bool queue_full(queue *q) {
     if (full(&q->s1) && full(&q->s2)) {
         return true;
-        if (full(q->s1) && empty(q->s2)) {
+        if (full(&q->s1) && empty(&q->s2)) {
             move_s1_to_s2(q);
             return full(&q->s1) && full(&q->s2);
         }
